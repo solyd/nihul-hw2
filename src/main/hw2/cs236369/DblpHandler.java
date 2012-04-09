@@ -27,7 +27,7 @@ public class DblpHandler extends DefaultHandler {
 
     public DblpHandler(String authorRegex) {
         m_authorRegex = authorRegex;
-        Pattern m_pattern = Pattern.compile(m_authorRegex);
+        m_pattern = Pattern.compile(m_authorRegex);
     }
 
     private void processWorkItem() {
