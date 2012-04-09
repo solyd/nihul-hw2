@@ -12,4 +12,8 @@
         <nickname>fong fong</nickname>
         <salary>200000</salary>
     </staff>
+    
+    <empty id="222" />
+    
 </company>
+
