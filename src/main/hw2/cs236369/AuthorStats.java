@@ -26,12 +26,17 @@ public class AuthorStats {
     }
 
     public void update(WorkItem newWork) {
+        if (newWork.year() == -1)
+            return;
+
         m_works.add(newWork);
 
-        if (newWork.year() > m_lastYear || m_lastYear == -1)
-            m_lastYear = newWork.year();
-        if (newWork.year() < m_firstYear || m_firstYear == -1)
-            m_firstYear = newWork.year();
+        if (newWork.year() != -1) {
+            if (newWork.year() > m_lastYear || m_lastYear == -1)
+                m_lastYear = newWork.year();
+            if (newWork.year() < m_firstYear || m_firstYear == -1)
+                m_firstYear = newWork.year();
+        }
 
         m_avgWorksPerYear = (m_works.size() * 1.0) / (m_lastYear - m_firstYear + 1);
 

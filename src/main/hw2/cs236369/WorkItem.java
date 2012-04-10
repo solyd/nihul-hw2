@@ -5,7 +5,7 @@ import java.util.HashSet;
 
 public class WorkItem {
     private Collection<String> m_authors = new HashSet<String>();
-    private int                m_year;
+    private int                m_year    = -1;
 
     public Collection<String> getAuthors() {
         return new HashSet<String>(m_authors);
