@@ -60,7 +60,8 @@ public class DblpHandler extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
-        // [TODO]
+        for (AuthorStats authStats : m_authorsStats)
+            System.out.println(authStats.toString());
     }
 
     @Override

@@ -15,7 +15,7 @@ public class WorkItem {
         m_authors.add(author);
     }
 
-    public int getYear() {
+    public int year() {
         return m_year;
     }
 
