@@ -2,6 +2,8 @@ package hw2.cs236369;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.regex.Pattern;
 
 import org.xml.sax.Attributes;
@@ -14,6 +16,7 @@ public class DblpHandler extends DefaultHandler {
     private int                     m_nestingLvl   = 0;
     private WorkItem                m_currWorkItem;
     private String                  m_currEleType;
+    private String                  m_currAuthName = "";
 
     // we look for authors whose name matches this regex
     private String                  m_authorRegex;
@@ -60,7 +63,9 @@ public class DblpHandler extends DefaultHandler {
 
     @Override
     public void endDocument() throws SAXException {
-        for (AuthorStats authStats : m_authorsStats)
+        Set<AuthorStats> sortedStats = new TreeSet<AuthorStats>(new AuthorCompare());
+        sortedStats.addAll(m_authorsStats);
+        for (AuthorStats authStats : sortedStats)
             System.out.println(authStats.toString());
     }
 
@@ -81,8 +86,12 @@ public class DblpHandler extends DefaultHandler {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+        if (!m_currAuthName.equals(""))
+            m_currWorkItem.addAuthor(m_currAuthName);
+
         m_nestingLvl--;
         m_currEleType = null;
+        m_currAuthName = "";
         if (m_nestingLvl == 1)
             processWorkItem();
     }
@@ -95,7 +104,8 @@ public class DblpHandler extends DefaultHandler {
         String str = new String(ch, start, length);
         switch (m_currEleType) {
         case AUTHOR:
-            m_currWorkItem.addAuthor(str);
+            // m_currWorkItem.addAuthor(str);
+            m_currAuthName += str;
             break;
         case YEAR:
             m_currWorkItem.setYear(Integer.parseInt(str));

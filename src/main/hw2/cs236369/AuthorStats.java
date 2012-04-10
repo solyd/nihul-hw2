@@ -10,9 +10,9 @@ public class AuthorStats {
     // average number of papers per year, since first publication
     private double                m_avgWorksPerYear;
     // year of first publication
-    private int                   m_firstYear;
+    private int                   m_firstYear     = -1;
     // year of last publication
-    private int                   m_lastYear;
+    private int                   m_lastYear      = -1;
 
     private Collection<String>    m_coauths       = new HashSet<String>();
     private Collection<WorkItem>  m_works         = new HashSet<WorkItem>();
@@ -28,9 +28,9 @@ public class AuthorStats {
     public void update(WorkItem newWork) {
         m_works.add(newWork);
 
-        if (newWork.year() > m_lastYear)
+        if (newWork.year() > m_lastYear || m_lastYear == -1)
             m_lastYear = newWork.year();
-        if (newWork.year() < m_firstYear)
+        if (newWork.year() < m_firstYear || m_firstYear == -1)
             m_firstYear = newWork.year();
 
         m_avgWorksPerYear = (m_works.size() * 1.0) / (m_lastYear - m_firstYear + 1);
