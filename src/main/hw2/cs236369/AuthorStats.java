@@ -13,6 +13,8 @@ public class AuthorStats {
     private int                   m_firstYear     = -1;
     // year of last publication
     private int                   m_lastYear      = -1;
+    // total amount of co-authors (with repititions)
+    private int                   m_ncoauths      = 0;
 
     private Collection<String>    m_coauths       = new HashSet<String>();
     private Collection<WorkItem>  m_works         = new HashSet<WorkItem>();
@@ -30,13 +32,12 @@ public class AuthorStats {
             return;
 
         m_works.add(newWork);
+        m_ncoauths += newWork.getAuthors().size() - 1;
 
-        if (newWork.year() != -1) {
-            if (newWork.year() > m_lastYear || m_lastYear == -1)
-                m_lastYear = newWork.year();
-            if (newWork.year() < m_firstYear || m_firstYear == -1)
-                m_firstYear = newWork.year();
-        }
+        if (newWork.year() > m_lastYear || m_lastYear == -1)
+            m_lastYear = newWork.year();
+        if (newWork.year() < m_firstYear || m_firstYear == -1)
+            m_firstYear = newWork.year();
 
         m_avgWorksPerYear = (m_works.size() * 1.0) / (m_lastYear - m_firstYear + 1);
 
@@ -79,7 +80,7 @@ public class AuthorStats {
     }
 
     public double avgCoauthorsPerWork() {
-        return (m_coauths.size() * 1.0) / m_works.size();
+        return (m_ncoauths * 1.0) / m_works.size();
     }
 
     public int totalCoauthors() {
